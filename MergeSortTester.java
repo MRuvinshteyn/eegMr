@@ -2,10 +2,12 @@
   class MergeSortTester
 
   ALGORITHM:
-  <INSERT YOUR DISTILLATION OF ALGO HERE>
+  1. If array size is 1, return array
+  2. Else, split the array into halves (first half is smaller if array size is odd)
+  3. Sort each half of the array and merge the two halves
 
   BIG-OH CLASSIFICATION OF ALGORITHM:
-  <INSERT YOUR EXECUTION TIME CATEGORIZATION OF MERGESORT HERE>
+  O(nlog(n))
 
   Mean execution times for dataset of size n:
   Batch size: <# of times each dataset size was run>
@@ -30,7 +32,7 @@ public class MergeSortTester
      ******************************/
     public static void main( String[] args ) 
     {
-
+	
     }//end main
 
 }//end class
