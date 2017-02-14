@@ -24,6 +24,14 @@
 public class MergeSortTester 
 {
 
+    public static int[] randArr(int length) {
+	int[] retArr = new int[length];
+	for (int i = 0; i < length; i++) {
+	    retArr[i] = (int) (Math.random()*100);
+	}
+	return retArr;
+    }
+
     /******************************
      * execution time analysis 
      * <INSERT YOUR DESCRIPTION HERE OF 
@@ -32,6 +40,18 @@ public class MergeSortTester
      ******************************/
     public static void main( String[] args ) 
     {
+	
+	long first, second;
+	int[] one1 = randArr(1);
+	int[] ten1 = randArr(10);
+	int[] hundred1 = randArr(100);
+	int[] thousand1 = randArr(1000);
+	first = System.nanoTime();
+	//first = System.currentTimeMillis();
+	MergeSort.sort(one1);
+	second = System.nanoTime();
+	//second = System.currentTimeMillis();
+	System.out.println((second - first) + " nanoseconds");
 	
     }//end main
 
