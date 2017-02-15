@@ -1,3 +1,8 @@
+//Michael Ruvinshteyn, Edward Ro, Adeebur Rahman
+//APCS2 p1
+//HW07 -- What Does the Data Say?  
+//2017-02-14
+
 /*======================================
   class MergeSortTester
 
@@ -10,12 +15,12 @@
   O(nlog(n))
 
   Mean execution times for dataset of size n:
-  Batch size: 10
+  Batch size: 50
   n=1       time: 256 nanoseconds
   n=10      time: 12522 nanoseconds
   n=100     time: 72833 nanoseconds
   ...
-  n=<huge>  time: 542032 nanoseconds
+  n=<huge> 1000  time: 542032 nanoseconds
 
   ANALYSIS:
   An array of length 1 has a significantly lower runtime demand than arrays of length 10, 100, and greater. This must be due to the
@@ -56,39 +61,70 @@ public class MergeSortTester
     public static void main( String[] args ) 
     {
 	
-	long mark1, first, mark2, second, mark3, third, mark4, fourth, mark5, fifth;
-	int[] one1 = randArr(1);
-	printArray(one1);
-	int[] ten1 = randArr(10);
-	printArray(ten1);
-	int[] hundred1 = randArr(100);
-	printArray(hundred1);
-	int[] thousand1 = randArr(1000);
-	printArray(thousand1);
+	int[] init = randArr(1);	
+	long initStart = System.nanoTime();
+        MergeSort.sort(init);	
+	long initEnd = System.nanoTime(); //Results in significantly large runtime that is evidently not representative of the array being sorted
 
-	mark1 = System.nanoTime();
-        MergeSort.sort(one1);	
-	first = System.nanoTime(); //Results in significantly large runtime that is evidently not representative of the array being sorted
+	long startTime, runtime, total;
+	total = 0;
+	System.out.println("Length 1");
+	for (int i = 0; i < 50;i++){
+	    int[] one = randArr(1);
+	    printArray(one);
+	    startTime = System.nanoTime();
+	    MergeSort.sort(one);
+	    runtime = System.nanoTime() - startTime;
+	    System.out.println("Trial " + i + " : " + runtime + " nanoseconds\n");
+	    total += runtime;
+	}
+	double oneAverage = total/50f;
 
-	mark2 = System.nanoTime();
-	MergeSort.sort(one1);
-	second = System.nanoTime();
-	System.out.println("Length 1: " + (second - mark2) + " nanoseconds");
+	total = 0;
+	System.out.println("Length 10");
+	for (int i = 0; i < 50;i++){
+	    int[] ten = randArr(10);
+	    printArray(ten);
+	    startTime = System.nanoTime();
+	    MergeSort.sort(ten);
+	    runtime = System.nanoTime() - startTime;
+	    System.out.println("Trial " + i + " : " + runtime + " nanoseconds\n");
+	    total += runtime;
+	}
+	double tenAverage = total/50f;
+	
+	
+	total = 0;
+	System.out.println("Length 100");
+	for (int i = 0; i < 50;i++){
+	    int[] hundred = randArr(100);
+	    printArray(hundred);
+	    startTime = System.nanoTime();
+	    MergeSort.sort(hundred);
+	    runtime = System.nanoTime() - startTime;
+	    System.out.println("Trial " + i + " : " + runtime + " nanoseconds\n");
+	    total += runtime;
+	}
+	double hundredAverage = total/50f;
 
-	mark3 = System.nanoTime();
-	MergeSort.sort(ten1);
-	third = System.nanoTime();
-	System.out.println("Length 10: " + (third - mark3) + " nanoseconds");
 
-	mark4 = System.nanoTime();
-	MergeSort.sort(hundred1);
-	fourth = System.nanoTime();
-	System.out.println("Length 100: " + (fourth - mark4) + " nanoseconds");
+	total = 0;
+	System.out.println("Length 1000");
+	for (int i = 0; i < 50;i++){
+	    int[] thousand = randArr(1000);
+	    printArray(thousand);
+	    startTime = System.nanoTime();
+	    MergeSort.sort(thousand);
+	    runtime = System.nanoTime() - startTime;
+	    System.out.println("Trial " + i + " : " + runtime + " nanoseconds\n");
+	    total += runtime;
+	}
+	double thousandAverage = total/50f;
 
-	mark5 = System.nanoTime();
-	MergeSort.sort(thousand1);
-	fifth = System.nanoTime();
-	System.out.println("Length 1000: " + (fifth - mark5) + " nanoseconds");
+	System.out.println("Average time for length 1: " + oneAverage + " nanoseconds");
+	System.out.println("Average time for length 10: " + tenAverage + " nanoseconds");
+	System.out.println("Average time for length 100: " + hundredAverage + " nanoseconds");
+	System.out.println("Average time for length 1000: " + thousandAverage + " nanoseconds");
     }//end main
 
 }//end class
