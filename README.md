@@ -1,9 +1,9 @@
 # eegMr
 
-Michael Ruvinshteyn, Edward Ro, Adeebur Rahman
-APCS2 p1
-Lab00 -- What Does the Data Say?  
-2017-02-27
+Michael Ruvinshteyn, Edward Ro, Adeebur Rahman  
+APCS2 p1  
+Lab00 -- What Does the Data Say?    
+2017-02-27  
 
 
 ##Merge Sort Algorithm
