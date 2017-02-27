@@ -1,12 +1,12 @@
 //Michael Ruvinshteyn, Edward Ro, Adeebur Rahman
 //APCS2 p1
-//HW07 -- What Does the Data Say?  
-//2017-02-14
+//Lab00 -- What Does the Data Say?  
+//2017-02-27
 
 /*======================================
   class MergeSortTester
 
-  ALGORITHM:
+  Merge Sort ALGORITHM:
   1. If array size is 1, return array
   2. Else, split the array into halves (first half is smaller if array size is odd)
   3. Sort each half of the array and merge the two halves
@@ -14,18 +14,47 @@
   BIG-OH CLASSIFICATION OF ALGORITHM:
   O(nlog(n))
 
-  Mean execution times for dataset of size n:
-  Batch size: 50
-  n=1       time: 256 nanoseconds
-  n=10      time: 12522 nanoseconds
-  n=100     time: 72833 nanoseconds
-  ...
-  n=<huge> 1000  time: 542032 nanoseconds
+  Timing ALGORITHM:
 
+  1. A random list of given size is created.
+  2. The current time is recorded with System.nanoTime() as startTime
+  3. The list is sorted with merge sort.
+  4. Difference between the new value returned from System.nanoTime() and the startTime is returned.
+  5. Process is repeated the given number of times.
+
+  Mean execution times for dataset of size n:
+  Batch size: 1000
+  Array Length, Average Runtime
+  50000,7517099
+  100000,13816947
+  150000,22607216
+  200000,30941182
+  250000,40110985
+  300000,48643904
+  350000,57730321
+  400000,65441816
+  450000,73281588
+  500000,84680403
+  550000,94165978
+  600000,99916277
+  650000,109352105
+  700000,122540827
+  750000,130717364
+  800000,138727958
+  850000,148570851
+  900000,159042963
+  950000,165009158
+  1000000,181331154
+
+  Sidenote
+
+  After running multiple runtime tests, we noticed that the runtime of the first few executions of MergeSort were significantly larger than runtimes of successive executions. We found that this is because java was still initializing. In order to get more accurate data, we added another set of tests of size 10000000 that does not get displayed on the terminal, so that the successive runtimes are more accurate. We used size 10000000 because this properly fixed the runtimes. When we tried shorter lists it didn't really have much of an effect. 
+  
   ANALYSIS:
-  An array of length 1 has a significantly lower runtime demand than arrays of length 10, 100, and greater. This must be due to the
-  fact that the array did not require comparisons to be done in order to sort it, as there is only one item that would be compared
-  to an empty second half.
+  In order to get some data, we calculated the average runtime of lists between size 50000 and 1000000 with increments of 50000. We then took the average runtimes and graphed them. We also graphed n, log(n), nlog(n), and n^2 runtime for comparison. The graph looked most similar to nlog(n). To confirm the runtime, we graphed lines of xnlog(n) replacing x with some arbitray number to see if it was close to matching. We also graphed lines of xlog(n) and xn to compare. From our testing we found that our data is most closely represented by the line 13nlog(n). We then concluded that the runtime of merge sort is nlog(n).
+     
+     
+
   ======================================*/
 
 public class MergeSortTester 
@@ -45,86 +74,41 @@ public class MergeSortTester
 	    System.out.print( i + ",");
 	System.out.println("]");
     }
+
+    public static long getTime(int[] a) {
+	long startTime = System.nanoTime();
+	MergeSort.sort(a);
+	return System.nanoTime() - startTime;
+    }
     
+    public static long calcRuntime(int arraySize, int numTests) {
+	long total = 0;
+	for (int i = 0; i < numTests; i++) {
+	    int[] a = randArr(arraySize);
+	    total += getTime(a);
+	}
+	return total / numTests;
+    }
+
     /******************************
      * execution time analysis 
-     After running multiple runtime tests, we noticed that the runtime of the first execution of MergeSort was significantly larger
-     than runtimes of successive executions. In order to get more accurate data, we added another execution of MergeSort that does
-     not get displayed on the terminal, so that the successive runtimes are more accurate. This resulted in the runtime of 1 item-long
-     arrays getting 256 nanosecond average runtime, rather than its previous 400000 nanosecond runtime, which was unrealistic given
-     the runtimes of 10 item-long arrays and 100 item-long arrays.
+       1. Random Array of given size generated.
+       2. Time recorded prior to sorting.
+       3. Array sorted
+       4. runtime added to variable
+       5. process repeated the given numTests
+       6. total / numTests returned
+    ******************************/
+    public static void main( String[] args ) {
 
-     In order to read the runtimes, we mark the system runtime right before we initiate a MergeSort of an array. To display the time it
-     took to run that execution, we mark the time after the sort, and subtract that from the mark made before the sort to get the time
-     difference. This time is printed out and displayed for the user to see how long it took to sort the array.
-     ******************************/
-    public static void main( String[] args ) 
-    {
+	calcRuntime(1000000,1000); //to get rid of runtimes when java is warming up.
 	
-	int[] init = randArr(1);	
-	long initStart = System.nanoTime();
-        MergeSort.sort(init);	
-	long initEnd = System.nanoTime(); //Results in significantly large runtime that is evidently not representative of the array being sorted
-
-	long startTime, runtime, total;
-	total = 0;
-	System.out.println("Length 1");
-	for (int i = 0; i < 50;i++){
-	    int[] one = randArr(1);
-	    printArray(one);
-	    startTime = System.nanoTime();
-	    MergeSort.sort(one);
-	    runtime = System.nanoTime() - startTime;
-	    System.out.println("Trial " + i + " : " + runtime + " nanoseconds\n");
-	    total += runtime;
+	System.out.println("Length\t\tRuntime");
+	for (int i = 50000; i <= 1000000; i+=50000) {
+	    System.out.print(i + "\t\t");
+	    System.out.println(calcRuntime(i,1000));
 	}
-	double oneAverage = total/50f;
-
-	total = 0;
-	System.out.println("Length 10");
-	for (int i = 0; i < 50;i++){
-	    int[] ten = randArr(10);
-	    printArray(ten);
-	    startTime = System.nanoTime();
-	    MergeSort.sort(ten);
-	    runtime = System.nanoTime() - startTime;
-	    System.out.println("Trial " + i + " : " + runtime + " nanoseconds\n");
-	    total += runtime;
-	}
-	double tenAverage = total/50f;
 	
-	
-	total = 0;
-	System.out.println("Length 100");
-	for (int i = 0; i < 50;i++){
-	    int[] hundred = randArr(100);
-	    printArray(hundred);
-	    startTime = System.nanoTime();
-	    MergeSort.sort(hundred);
-	    runtime = System.nanoTime() - startTime;
-	    System.out.println("Trial " + i + " : " + runtime + " nanoseconds\n");
-	    total += runtime;
-	}
-	double hundredAverage = total/50f;
-
-
-	total = 0;
-	System.out.println("Length 1000");
-	for (int i = 0; i < 50;i++){
-	    int[] thousand = randArr(1000);
-	    printArray(thousand);
-	    startTime = System.nanoTime();
-	    MergeSort.sort(thousand);
-	    runtime = System.nanoTime() - startTime;
-	    System.out.println("Trial " + i + " : " + runtime + " nanoseconds\n");
-	    total += runtime;
-	}
-	double thousandAverage = total/50f;
-
-	System.out.println("Average time for length 1: " + oneAverage + " nanoseconds");
-	System.out.println("Average time for length 10: " + tenAverage + " nanoseconds");
-	System.out.println("Average time for length 100: " + hundredAverage + " nanoseconds");
-	System.out.println("Average time for length 1000: " + thousandAverage + " nanoseconds");
     }//end main
 
 }//end class

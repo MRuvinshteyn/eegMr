@@ -8,6 +8,9 @@
   Implements mergesort on array of ints.
 
   Summary of Algorithm: 
+  1. If array size is 1, return array
+  2. Else, split the array into halves (first half is smaller if array size is odd)
+  3. Sort each half of the array and merge the two halves
 
   ======================================*/
 
